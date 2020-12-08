@@ -8,19 +8,33 @@ use Asantibanez\LivewireCharts\Models\PieChartModel;
 
 class PollChart extends Component
 {
+    public Poll $poll;
+
+    public function mount(Poll $poll)
+    {
+        $this->poll = $poll;
+    }
+
     public function render()
     {
-        $poll = Poll::find(1);
-
-        $colors = ['#f6ad55', '#fc8181', '#90cdf4', '#12cdc1', '#123456'];
-
         $pieChartModel = new PieChartModel;
-        $pieChartModel->setTitle(sprintf('Poll %d Results', $poll->id));
+        $pieChartModel->setTitle(sprintf('Poll %d Results', $this->poll->id));
 
-        foreach ($poll->choices as $index => $choice) {
-           $pieChartModel->addSlice($choice->text, $choice->votes, $colors[$index]);
+        foreach ($this->poll->choices as $choice) {
+           $pieChartModel->addSlice(
+               $choice->text,
+               $choice->votes,
+               random_color()
+           );
         }
 
         return view('livewire.poll-chart', compact('pieChartModel'));
     }
+
+    private function colors($count) : array
+    {
+
+        return [];
+    }
+
 }

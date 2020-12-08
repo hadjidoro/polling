@@ -5,7 +5,7 @@
 
     <h2>{{ $poll->question_text }}</h2>
 
-    <livewire:poll-chart />
+    <livewire:poll-chart :poll="$poll"/>
 
     <ul>
         @foreach($poll->choices as $choice)
